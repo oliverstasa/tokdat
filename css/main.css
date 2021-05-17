@@ -1,0 +1,135 @@
+@font-face {font-family: "FK"; src: url("/data/HelveticaNowText.woff");}
+
+* {user-select: none;}
+*::selection {background: blue; color: white;}
+*::-webkit-scrollbar-track {background-color: transparent;}
+*::-webkit-scrollbar {width: 1vh; height: 1vh; background-color: transparent;}
+*::-webkit-scrollbar-thumb {background-color: blue;}
+
+html, body {width: 100%; height: 100%; margin: 0; padding: 0; font-size: 5vh; overflow: hidden; font-family: 'FK'; background: black;}
+    body {background: url('/data/img/sky.gif') repeat; animation: fly 20s linear infinite; opacity: 0; background-size: 20vh 20vh;}
+        @keyframes fly {
+            0% {background-position-y: 0vh;}
+            100% {background-position-y: -100vh;}
+        }
+
+.center {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;}
+
+.loadBase {z-index: 9999; font-size: 50vh; line-height: 100vh; color: white;}
+    .hlavoun {position: absolute; z-index: 9999; animation: hlavoun 0.5s; width: 30vh; height: 30vh; animation-fill-mode: forwards;}
+        @keyframes hlavoun {
+            0% {transform: translate(-50%, -50%) scale(0.2); opacity: 0;}
+            25% {opacity: 1;}
+            75% {opacity: 1;}
+            100% {transform: translate(-50%, -50%) scale(1); opacity: 0;}
+        }
+.startAnnouncer {z-index: 99999; font-size: 3vh; color: white;}
+    .how {font-style: italic; color: blue; cursor: help; background: white; padding: 0 1vh;}
+    .howTo {position: absolute; width: 40vh; height: 40vh; z-index: 99999; border: 1vh white solid; transform: translate(0, 0) !important; background: white;}
+        .howTo video {width: 100%; height: 100%;}
+
+.tokdat {width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 9999; font-size: 100vh; line-height: 100vh; color: #333; white-space: nowrap; overflow: hidden;}
+    .tokdat div {animation: roll 20s linear infinite; white-space: nowrap; display: table-cell;}
+    @keyframes roll {
+        0%   {transform: translateX(0%); color: #333;}
+        50%  {color: #111;}
+        100% {transform: translateX(-50%); color: #333;}
+    }
+
+.percentage {font-weight: bold;}
+#play {cursor: pointer; color: #00ff00; animation: play 1s infinite;}
+    @keyframes play {
+        0%  {color: #00ff00;}
+        33% {color: #0000ff;}
+        66% {color: #ff0000;}
+    }
+
+.partitura {width: 100vw; height: 0vh; transform: perspective(0vh) rotateX(0deg) translateX(-50%); transform-origin: 50% 20%; left: 50%; transition: all 1s linear; position: absolute; z-index: 1;}
+    .partitura.over {background: linear-gradient(180deg, rgb(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 100%); z-index: 10;}
+    .partitura.main {background: transparent;}
+.partitura.loading {height: 100vh;}
+.partitura.loaded {height: 54vh; width: 23vw; transform: perspective(50vh) rotateX(63deg); left: 38%;}
+
+.progress {position: absolute; top: 0; left: 50%; transform: translateX(-50%); height: 8vh; background: linear-gradient(0deg, rgb(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 100%); width: 20vw; z-index: 1000; font-size: 7vh; line-height: 8vh; overflow: hidden; color: white;}
+
+.tab {width: 23vw; height: 5vh; background: black; top: 0; position: absolute; font-size: 4vh; text-align: center; line-height: 5vh; color: white;}
+    .tl {}
+    .tr {}
+    .tu {}
+    .td {}
+    .now {animation: nowBlink 0.1s infinite; font-weight: bold;}
+        @keyframes nowBlink {
+            0% {color: #0000ff; text-shadow: 0vh -0.4vh white;}
+            33% {color: #00ff00;}
+            50% {text-shadow: 0vh 0vh white;}
+            66% {color: #ff0000;}
+        }
+    .hit {background: url('/data/img/fires.gif') black center center !important; color: yellow; background-size: contain;}
+    .ouch {background: red !important;}
+
+.key, .score {position: absolute; height: 10vh; width: 10vh; left: 5vh; background: black; color: white; font-size: 3vh; z-index: 200; line-height: 10vh; text-align: center; border-radius: 50%;}
+    .score {top: 5vh;}
+    .key {top: 17vh;}
+
+.video {width: 23vw; position: absolute; top: 0; background: black;}
+    .v {width: 100%; height: 100%; background: black; position: absolute; animation: reveal 1s linear; opacity: 0; animation-fill-mode: forwards;}
+    @keyframes reveal {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    .v video {position: absolute; width: 100%; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+
+
+/*
+epic strings + animations
+*/
+.comboBreaker {position: absolute; z-index: 99999; top: 0; left: 50vw; transform: translate(-50%, -50%); animation: comboAnnouncer 0.2s infinite; font-size: 5vh; text-align: center; top: 0; opacity: 0; line-height: 0;}
+    @keyframes comboAnnouncer {
+        0% {color: red; display: block;}
+        33% {color: yellow;}
+        66% {display: none;}
+    }
+    .comboBreaker h1 {font-size: 15vh; padding: 0; margin: 0; animation: comboBreaker 0.5s infinite;}
+        @keyframes comboBreaker {
+            0% {color: red;}
+            33% {color: yellow;}
+            66% {color: cyan;}
+        }
+    .comboBreaker h2 {font-size: 10vh; padding: 0; margin: 0; animation: comboPoints 0.8s infinite;}
+        @keyframes comboPoints {
+            0% {color: #00ff00;}
+            50% {color: yellow;}
+        }
+.epic {animation: epicBlink 0.1s infinite;}
+    @keyframes epicBlink {
+        0% {color: red;}
+        50% {color: #00ff00;}
+    }
+.epicString {position: absolute; z-index: 9999;}
+    .head {top: 100vh; left: 50vw; width: 10vh; height: 10vh; opacity: 0.5;}
+        .head.h1 {background: url('/data/hlavy/1.png') center center !important; background-size: cover !important;}
+        .head.h2 {background: url('/data/hlavy/2.png') center center !important; background-size: cover !important;}
+        .head.h3 {background: url('/data/hlavy/3.png') center center !important; background-size: cover !important;}
+        .head.h4 {background: url('/data/hlavy/4.png') center center !important; background-size: cover !important;}
+        .head.h5 {background: url('/data/hlavy/5.png') center center !important; background-size: cover !important;}
+        .head.h6 {background: url('/data/hlavy/6.png') center center !important; background-size: cover !important;}
+        .head.h7 {background: url('/data/hlavy/7.png') center center !important; background-size: cover !important;}
+        .head.h8 {background: url('/data/hlavy/8.png') center center !important; background-size: cover !important;}
+    .scoreCombo {top: 5vh; left: 50vw; transform: translateX(-50%); width: 0; height: 0; opacity: 0;}
+    .kakat {animation: kakat 1.5s; background: url('/data/img/shit.png') center center !important; background-size: cover !important;}
+    @keyframes kakat {
+        0% {filter: hue-rotate(0deg);}
+        100% {filter: hue-rotate(666deg);}
+    }
+    .kkk {background: url('/data/img/kkk.jpg') center center !important; background-size: cover !important;}
+
+.streak {position: absolute; left: -20vh; position: absolute; z-index: 9998; color: white; text-align: center; transform: translate(-50%, -50%); word-break: keep-all; white-space: nowrap;}
+    .streak h2 {padding: 0; margin: 0; animation: comboPoints 0.8s infinite; font-size: 5vh;}
+    .lvl1 {font-size: 2.5vh;}
+    .lvl2 {font-size: 3vh;}
+    .lvl3 {font-size: 3.5vh;}
+    .lvl4 {font-size: 4vh;}
+    .lvl5 {font-size: 4.5vh;}
+    .lvl6 {font-size: 5vh; animation: epicBlink 0.1s infinite;}
+    .lvl7 {font-size: 5.5vh; animation: epicBlink 0.1s infinite;}
+    .lvl8 {font-size: 6vh; animation: epicBlink 0.3s infinite;}
