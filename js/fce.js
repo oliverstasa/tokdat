@@ -15,7 +15,11 @@ main rider setup
 let hMpl = 0.55,
     h = $(window).height(),
     tabs = ['t', 'o', 'k', 'd', 'a'],
-    tabNames = {'t': 'T', 'o': 'O', 'k': 'K', 'd': 'D', 'a': 'A'};
+    tokTabs = ['t', 'o', 'k', 'd', 'a', 't'],
+    tabNames = {'t': 'T', 'o': 'O', 'k': 'K', 'd': 'D', 'a': 'A'},
+    specials = ['kokot', 'kakat', 'tokdat', 'tokat', 'dakota', 'takt', 'dok', 'katka', 'katoda', 'kkk'];
+
+// data setup
 window.source = [];
 window.tx = 0;
 window.streak = 1;
@@ -26,27 +30,24 @@ window.difficulty = 1000;
 window.fall = 5000;
 
 // place epic strings to line
-for (tx = Math.floor(Math.random()*30)+30; tx < 1666; tx++) {
-    var rand = tabs[Math.floor(Math.random()*tabs.length)];
-    if (tx % 19 == 0) {
-        window.source.push('k', 'o', 'k', 'o', 't');
-    } else if (tx % 23 == 0) {
-        window.source.push('k', 'a', 'k', 'a', 't');
-    } else if (tx % 29 == 0) {
-        window.source.push('t', 'o', 'k', 'a', 't');
-    } else if (tx % 43 == 0) {
-        window.source.push('t', 'o', 'k', 'd', 'a', 't');
-    } else if (tx % 47 == 0) {
-        window.source.push('d', 'a', 'k', 'o', 't', 'a');
-    } else if (tx % 39 == 0) {
-        window.source.push('t', 'a', 'k', 't');
-    } else if (tx % 41 == 0) {
-        window.source.push('d', 'o', 'k');
+for (ti = 0; ti < 400; ti++) {
+
+    var pick = Math.floor(Math.random()*10);
+
+    if (pick > 6) {
+        var special = specials[Math.floor(Math.random()*specials.length)].split('');
+            ti--;
+            for (l = 0; l < special.length; l++) {
+                window.source.push(special[l]);
+                ti++;
+            }
     } else {
+        var rand = tabs[Math.floor(Math.random()*tabs.length)];
         window.source.push(rand);
     }
 }
 
+console.log(window.source);
 
 
 /*
@@ -54,7 +55,7 @@ on page open
 */
 $(window).on('load', function(){
 
-    var imgs = ['/data/img/sky.gif', '/data/img/fires.gif', '/data/img/kkk.jpg', '/data/img/shit.png', '/data/hlavy/1.png', '/data/hlavy/2.png', '/data/hlavy/3.png', '/data/hlavy/4.png', '/data/hlavy/5.png', '/data/hlavy/6.png', '/data/hlavy/7.png', '/data/hlavy/8.png'],
+    var imgs = ['/data/img/sky.gif', '/data/img/fires.gif', '/data/img/kkk.jpg', '/data/img/shit.png', '/data/img/katoda.png', '/data/hlavy/1.png', '/data/hlavy/2.png', '/data/hlavy/3.png', '/data/hlavy/4.png', '/data/hlavy/5.png', '/data/hlavy/6.png', '/data/hlavy/7.png', '/data/hlavy/8.png'],
         img = [];
     window.imgsLoaded = 0;
     window.imgsTotal = imgs.length;
@@ -145,11 +146,11 @@ $(document).on('keydown', function(e){
     /*
     text bonus
     */
-    if ($('.tab.now').length && $('.tab.now').html() == char) {
+    if ($('.tab.now').length && $('.tab.now div').html() == char) {
         $('.progress').append(char).scrollLeft(999999999999999);
 
         // test for epic string
-        var epicStr = [['KOKOT', 50], ['KAKAT', 50], ['TOKDAT', 80], ['KKK', 20], ['DAKOTA', 90], ['TOKAT', 50], ['TAKT', 50], ['DOK', 10]],
+        var epicStr = [['KOKOT', 50], ['KAKAT', 50], ['TOKDAT', 80], ['KKK', 20], ['DAKOTA', 90], ['KATKA', 55], ['KATODA', 66], ['TOKAT', 50], ['TAKT', 50], ['DOK', 10]],
             str = $('.progress').html();
 
             for (var s in epicStr) {
@@ -172,10 +173,7 @@ $(document).on('keydown', function(e){
         // test for super-epic
         var audioDur = $('audio')[0].duration;
 
-        console.log(audioDur, window.speed, window.streak);
-
         if (Math.floor(audioDur/(window.speed/1000)-6) == window.streak) {
-            console.log('NOW');
             cheer('106%', 250, true, true);
         }
 
@@ -200,7 +198,7 @@ $(document).on('keydown', function(e){
 
                 $('body').addClass('plays');
 
-                $('.startAnnouncer').html('ZAPNI REPRÁKY <span class="how" vid="repraky.mp4">JAK?</span><br><br>NACHYSTEJ PRSTY NA KLÁVESY<br>[T] [O] [K] [D] [A] [T] <span class="how" vid="klavesnice.mp4">JAK?</span><br><br>');
+                $('.startAnnouncer').html('<h1><span class="line"><span>T</span><span>O</span><span>K</span><span> </span><span>D</span><span>A</span><span>T</span></span>: LIDOVÁ HUDBA</h1>→ ZAPNI REPRÁKY <span class="how" vid="repraky.mp4">JAK?</span><br><br>→ NACHYSTEJ PRSTY NA KLÁVESY<br>[T] [O] [K] [D] [A] [T] <span class="how" vid="klavesnice.mp4">JAK?</span><br>');
 
                 if (typeof window.videos === 'undefined') {
                     loadFiles(['/data/lidovahudba.mp3', '/data/video/konva.mp4' /*]); */, '/data/video/mara.mp4', '/data/video/tomas.mp4', '/data/video/komar.mp4']);
@@ -232,52 +230,54 @@ special score annoucments
 */
 function cheer(str, pts, comboBreaker, streak) {
 
-    var bg = '',
-        ecpiClass = '',
-        comboText = 'COMBO',
-        streakText = '',
-        lvl = 0,
-        maxSize = 30,
-        time = 1000,
-        delay = 0;
+    // def
+    var specials = [
+            ['KOKOT', 'JE TO', 'scoreCombo kokot kokot'+Math.floor(Math.random()*5+1), 40, 2300, false, false],
+            ['KAKAT', 'MUSÍŠ JÍT', 'scoreCombo kakat', 50, 1500, false, false],
+            ['KATKA', 'BROŽKOVÁ', 'scoreCombo katka', 30, 1200, false, false],
+            ['KATODA', 'ŽHAVÍCÍ', 'scoreCombo katoda', 60, 2000, false, false],
+            ['KKK', 'ŽHAVÍCÍ', 'scoreCombo kkk', 40, 1200, false, false],
+            ['106%', 'PLAYTHROUGH', 'scoreCombo 106', 55, 5555, false, false],
+            ['head', 0, 'head h'+Math.floor(Math.random()*8+1), 30, 1000, false, false],
+            ['onehead', 0, 'head h'+pts, 30, 500+Math.floor(Math.random()*2000), Math.floor(Math.random()*500), false],
+            ['TOKDAT', 'COMBO BREAKER', 0, 0, 0, false, 'tokdat']
+        ],
+        tabPos = $('.tab').first().find('div').attr('class');
 
-    switch(str) {
-        case 'KOKOT':
-            comboText = 'JE TO';
-        break;
-        case 'KAKAT':
-            comboText = 'MUSÍŠ JÍT';
-            ecpiClass = 'scoreCombo kakat';
-            maxSize = 50;
-            time = 1500;
-        break;
-        case 'TOKDAT':
-            comboText = 'COMBO BREAKER';
+        console.log(tabPos); 29-72
+        switch(tabPos) {
+            case 'tP1': tabPos = 28; break;
+            case 'tP2': tabPos = 37; break;
+            case 'tP3': tabPos = 46; break;
+            case 'tP4': tabPos = 55; break;
+            case 'tP5': tabPos = 64; break;
+            case 'tP6': tabPos = 72; break;
+        }
+        tabPos += 'vw';
+
+    // mount animation
+    for (var s = 0; s < specials.length; s++) {
+        if (str == specials[s][0]) {
+            var comboText = specials[s][1],
+                ecpiClass = specials[s][2],
+                maxSize = specials[s][3],
+                time = specials[s][4],
+                delay = specials[s][5],
+                specialFce = specials[s][6];
+            break;
+        }
+    }
+
+    // specials
+    switch (specialFce) {
+        case 'tokdat':
             for (var h = 1; h <= 8; h++) {
                 cheer('onehead', h, false, false);
             }
         break;
-        case 'KKK':
-            ecpiClass = 'scoreCombo kkk';
-            maxSize = 40;
-            time = 2500;
-        break;
-        case '106%':
-            comboText = 'PLAYTHROUGH';
-            ecpiClass = 'scoreCombo 106';
-            maxSize = 50;
-            time = 5000;
-        break;
-        case 'head':
-            ecpiClass = 'head h'+Math.floor(Math.random()*8+1);
-        break;
-        case 'onehead':
-            ecpiClass = 'head h'+pts;
-            time = 500+Math.floor(Math.random()*2000);
-            delay = Math.floor(Math.random()*500);
-        break;
     }
 
+    // combo annoucer
     if (comboBreaker) {
 
         $('body').append($('<div>').addClass('comboBreaker').html(comboText+'<h1>'+str+'</h1><h2>+ '+pts+' pts</h2>').animate({top: '25vh', opacity: 1, 'line-height': '10vh'}, 500, function(){
@@ -290,10 +290,16 @@ function cheer(str, pts, comboBreaker, streak) {
 
     }
 
+    // streak reward
     if (streak) {
+        
+        var lvl = 0,
+            points = '',
+            pos = {'top': 40+Math.floor(Math.random()*30),
+                   'left': 40+Math.floor(Math.random()*30)};
 
         switch (true) {
-            case pts == 0: streakText = 'SLIPPED!<br>STREAK BROKEN'; lvl = 4; break;
+            case pts == 0: streakText = 'SLIPPED!<br><span class="slipped">STREAK BROKEN</span>'; lvl = 4; break;
             case pts == 3: streakText = '5 STREAK: FÉROVEJ STISK'; lvl = 1; break;
             case pts == 5: streakText = '10 STREAK: JESTŘÁBÍ REFLEX'; lvl = 2; break;
             case pts == 10: streakText = '20 STREAK: ČÁVO'; lvl = 3; break;
@@ -304,17 +310,13 @@ function cheer(str, pts, comboBreaker, streak) {
             case pts == 250: streakText = 'FULL STREAK: BASEMENT DWELLER'; lvl = 8; break;
         }
 
-        var points = 0,
-            pos = {'top': 40+Math.floor(Math.random()*30),
-                   'left': 40+Math.floor(Math.random()*30)};
-
         if (pts > 0) {
             points = '<h2>+ '+pts+' pts</h2>';
         }
 
         $('body').append($('<div>')
                  .addClass('streak lvl'+lvl)
-                 .css({top: '75vh', left: '50vw', opacity: 0})
+                 .css({top: '75vh', left: tabPos, opacity: 0}) // left: '50vw'
                  .html(streakText+points)
                  .animate({top: pos.top+'vh', left: pos.left+'vw', opacity: 1}, 500, 'easeOutQuint', function(){
                     $(this).animate({top: '5vh', left: '5vh', opacity: 0}, lvl*500, 'easeInQuint', function(){
@@ -326,13 +328,14 @@ function cheer(str, pts, comboBreaker, streak) {
 
     }
 
+    // standart reward
     setTimeout(function(){
         var pos = {'top': Math.floor(Math.random()*50)+25, 'left': Math.floor(Math.random()*50)+25},
             size = Math.floor(Math.random()*10)+maxSize;
 
         $('body').append($('<div>')
                  .addClass('epicString '+ecpiClass)
-                 .css({top: '75vh', left: '50vw', transform: 'translate(-50%, -50%)'})
+                 .css({top: '75vh', left: tabPos, transform: 'translate(-50%, -50%)'})
                  .animate({top: pos.top+'vh', left: pos.left+'vw', width: size+'vh', height: size+'vh', opacity: 1}, time/4, 'easeOutQuint', function(){
                     $(this).animate({top: '5vh', left: '5vh', width: 0, height: 0, opacity: 0}, time, 'easeInQuint', function(){
                         $(this).remove();
@@ -352,7 +355,7 @@ function loadFiles(files) {
     window.progress = {};
     window.filesTotal = files.length;
 
-    $('.startAnnouncer').append($('<div>').addClass('percentage'));
+    $('.startAnnouncer').append($('<h1>').addClass('percentage'));
 
     var file = [];
 
@@ -427,7 +430,7 @@ function checkStatus() {
     if (window.videos.length == (window.filesTotal-1) && window.hudba) { // -1 for 1 audio file, underline note
 
         $('.percentage').delay(250).animate({opacity: 0}, 250, function(){
-            $(this).html('<span id="play">[START]</span>').animate({opacity: 1}, 250);
+            $(this).html('<span id="play">[<span class="line fast"><span>S</span><span>T</span><span>A</span><span>R</span><span>T</span></span>]').animate({opacity: 1}, 250); // <span class="hoe">→</span> <span class="hoe">←</span></span>
         });
 
     }
@@ -470,9 +473,20 @@ function taber(speed, difficulty, fall){
     var tab = window.source[window.tx],
         video = window.videos[Math.floor(Math.random()*window.videos.length)],
         timeNow = $('audio')[0].currentTime,
-        audioDur = $('audio')[0].duration;
+        audioDur = $('audio')[0].duration,
+        tabPos = 1;
 
-    if (timeNow < audioDur-speed/1000*7) {
+        switch(tab) {
+            case 't':
+                if (window.source[window.tx+1] != 'o' && window.source[window.tx+2] != 'k' && Math.random() < 0.5) {tabPos = 6;}
+            break;
+            case 'o': tabPos = 2; break;
+            case 'k': tabPos = 3; break;
+            case 'd': tabPos = 4; break;
+            case 'a': tabPos = 5; break;
+        }
+
+    if (timeNow < 10) { // audioDur-speed/1000*7
 
         setTimeout(function(){
             if ($('body').hasClass('plays')) {
@@ -483,9 +497,10 @@ function taber(speed, difficulty, fall){
     } else {
 
         setTimeout(function(){
+            $('audio')[0].pause();
             $('body').removeClass('plays');
-            $('.main').append($('<div>').html('KONEC').addClass('tab').animate({top: h*(hMpl-((hMpl/100)*(100/fall*difficulty)))}, fall-difficulty, 'linear', function(){
-            }));
+            $('.main').append($('<div>').html('KONEC').addClass('tab').animate({top: h*(hMpl-((hMpl/100)*(100/fall*difficulty))+h/100*2.5)}, fall-difficulty, 'linear', function(){}));
+            // $('.main').append($('<div>').html('<input type="text" placeholder="[ N A M E ]">').addClass('tab').animate({top: h*(hMpl-((hMpl/100)*(100/fall*difficulty))-h/100*2.5)}, fall-difficulty, 'linear', function(){}));
         }, speed*2);
 
     }
@@ -493,6 +508,7 @@ function taber(speed, difficulty, fall){
     /*
     loop for files
     */
+    var hg = h*hMpl/fall*window.speed; // h*hMpl/window.speed*1000-h/100*5
     $('.main').append($('<div>')
                 .append($('<div>').addClass('v')
                     .append($('<video>').attr('controls', false)
@@ -500,15 +516,28 @@ function taber(speed, difficulty, fall){
                     .attr('autoplay', true).on('loadedmetadata', function(){
                         $(this)[0].currentTime = timeNow;
                     })))
-                .addClass('video').css({'height': h*hMpl/speed*1000-h/100*5}).animate({top: h*hMpl}, fall, 'linear', function(){
+                .addClass('video').css({'height': hg}).animate({top: h*hMpl}, fall, 'linear', function(){
         $(this).remove();
     })
     );
 
-    /*
+    /* // h*hMpl/
     loop for tabs
     */
-    $('.main').append($('<div>').html(tabNames[tab]).addClass('tab t'+tab).animate({top: h*(hMpl-((hMpl/100)*(100/fall*difficulty)))}, fall-difficulty, 'linear', function(){
+    var htmlTabs = '';
+    //append($('<div>').html(tabNames[tab]).addClass('tP'+tabPos))
+    for (var tb = 0; tb < tokTabs.length; tb++) {
+        htmlTabs += '<div';
+        if (tb == tabPos) {
+            htmlTabs += ' class="win"';
+        }
+        htmlTabs += '>'+tokTabs[tb]+'</div>';
+    }
+    setTimeout(function(){
+        $('.tab').first().find('div:not(.win)').fadeOut(40);
+    }, speed);
+
+    $('.main').append($('<div>').html(htmlTabs).addClass('tab t'+tab+' n'+window.tx).animate({top: h*(hMpl-((hMpl/100)*(100/fall*difficulty)))}, fall-difficulty, 'linear', function(){
 
         var tabKey = $(this);
 
@@ -616,27 +645,29 @@ function score(ev, val) {
 
 
 
-$(document).on('mouseenter', '.how', function(){
+$(document).on('click touch', '.how', function(){
 
     var vid = $(this).attr('vid'),
-        pos = {'top': $(this).offset().top+$(window).height()/100*4,
+        pos = {'top': $(this).offset().top+$(window).height()/100*4.2,
                'left': $(this).offset().left};
 
     $('body').append($('<div>')
-                    .addClass('howTo')
-                    .css({top: pos.top, left: pos.left})
+                    .addClass('howTo center')
+                    .css({display: 'none'})
+                    // .css({top: pos.top, left: pos.left})
                         .append($('<video muted autoplay loop>')
                         .addClass('center')
                             .append($('<source>')
                             .attr('src', '/data/how/'+vid)
                             .attr('type', 'video/mp4'))
                         )
+                        .fadeIn(250)
             );
 
 
 });
-$(document).on('mouseleave', '.how', function(){
+$(document).on('touch click', '.howTo', function(){
 
-    $('.howTo').fadeOut(250, function(){$(this).remove();});
+    $(this).fadeOut(250, function(){$(this).remove();});
 
 });

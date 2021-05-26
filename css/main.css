@@ -24,9 +24,10 @@ html, body {width: 100%; height: 100%; margin: 0; padding: 0; font-size: 5vh; ov
             100% {transform: translate(-50%, -50%) scale(1); opacity: 0;}
         }
 .startAnnouncer {z-index: 99999; font-size: 3vh; color: white;}
-    .how {font-style: italic; color: blue; cursor: help; background: white; padding: 0 1vh;}
-    .howTo {position: absolute; width: 40vh; height: 40vh; z-index: 99999; border: 1vh white solid; transform: translate(0, 0) !important; background: white;}
-        .howTo video {width: 100%; height: 100%;}
+    .how {color: black; cursor: pointer; background: white; padding: 0 1vh;}
+        .how:hover {background: #00ff00; animation: hoe 1s infinite; color: white;}
+    .howTo {position: absolute; width: 40vh; height: 40vh; z-index: 99999; border: 1vh white solid; background: white; cursor: pointer; border-radius: 50%;}
+        .howTo video {width: 100%; height: 100%; border-radius: 50%;}
 
 .tokdat {width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 9999; font-size: 100vh; line-height: 100vh; color: #333; white-space: nowrap; overflow: hidden;}
     .tokdat div {animation: roll 20s linear infinite; white-space: nowrap; display: table-cell;}
@@ -37,11 +38,12 @@ html, body {width: 100%; height: 100%; margin: 0; padding: 0; font-size: 5vh; ov
     }
 
 .percentage {font-weight: bold;}
-#play {cursor: pointer; color: #00ff00; animation: play 1s infinite;}
-    @keyframes play {
-        0%  {color: #00ff00;}
-        33% {color: #0000ff;}
-        66% {color: #ff0000;}
+#play {cursor: pointer;}
+.hoe {background: #00ff00; animation: hoe 1s infinite;}
+    @keyframes hoe {
+        0%  {background: #00ff00;}
+        33% {background: #0000ff;}
+        66% {background: #ff0000;}
     }
 
 .partitura {width: 100vw; height: 0vh; transform: perspective(0vh) rotateX(0deg) translateX(-50%); transform-origin: 50% 20%; left: 50%; transition: all 1s linear; position: absolute; z-index: 1;}
@@ -53,10 +55,6 @@ html, body {width: 100%; height: 100%; margin: 0; padding: 0; font-size: 5vh; ov
 .progress {position: absolute; top: 0; left: 50%; transform: translateX(-50%); height: 8vh; background: linear-gradient(0deg, rgb(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 100%); width: 20vw; z-index: 1000; font-size: 7vh; line-height: 8vh; overflow: hidden; color: white;}
 
 .tab {width: 23vw; height: 5vh; background: black; top: 0; position: absolute; font-size: 4vh; text-align: center; line-height: 5vh; color: white;}
-    .tl {}
-    .tr {}
-    .tu {}
-    .td {}
     .now {animation: nowBlink 0.1s infinite; font-weight: bold;}
         @keyframes nowBlink {
             0% {color: #0000ff; text-shadow: 0vh -0.4vh white;}
@@ -66,6 +64,7 @@ html, body {width: 100%; height: 100%; margin: 0; padding: 0; font-size: 5vh; ov
         }
     .hit {background: url('/data/img/fires.gif') black center center !important; color: yellow; background-size: contain;}
     .ouch {background: red !important;}
+    .tab div {display: inline-block; width: calc(23vw / 6); text-align: center;}
 
 .key, .score {position: absolute; height: 10vh; width: 10vh; left: 5vh; background: black; color: white; font-size: 3vh; z-index: 200; line-height: 10vh; text-align: center; border-radius: 50%;}
     .score {top: 5vh;}
@@ -119,12 +118,14 @@ epic strings + animations
     .kakat {animation: kakat 1.5s; background: url('/data/img/shit.png') center center !important; background-size: cover !important;}
     @keyframes kakat {
         0% {filter: hue-rotate(0deg);}
-        100% {filter: hue-rotate(666deg);}
+        100% {filter: hue-rotate(720deg);}
     }
-    .kkk {background: url('/data/img/kkk.jpg') center center !important; background-size: cover !important;}
+    .kkk {background: url('/data/img/kkk.jpg') center center !important; background-size: cover !important; border-radius: 50%;}
+    .katoda {background: url('/data/img/katoda.png') center center !important; background-size: cover !important;}
 
 .streak {position: absolute; left: -20vh; position: absolute; z-index: 9998; color: white; text-align: center; transform: translate(-50%, -50%); word-break: keep-all; white-space: nowrap;}
     .streak h2 {padding: 0; margin: 0; animation: comboPoints 0.8s infinite; font-size: 5vh;}
+    .slipped {color: red;}
     .lvl1 {font-size: 2.5vh;}
     .lvl2 {font-size: 3vh;}
     .lvl3 {font-size: 3.5vh;}
@@ -133,3 +134,16 @@ epic strings + animations
     .lvl6 {font-size: 5vh; animation: epicBlink 0.1s infinite;}
     .lvl7 {font-size: 5.5vh; animation: epicBlink 0.1s infinite;}
     .lvl8 {font-size: 6vh; animation: epicBlink 0.3s infinite;}
+
+.line span {animation: colors 6s infinite;}
+.line.fast span {animation: colors 0.8s infinite;}
+    .line span:nth-child(9n+1) {animation-delay: -2s;}
+    .line span:nth-child(9n+2) {animation-delay: -3s;}
+    .line span:nth-child(9n+3) {animation-delay: -4s;}
+    .line span:nth-child(9n+4) {animation-delay: -5s;}
+    .line span:nth-child(9n+5) {animation-delay: -6s;}
+    .line span:nth-child(9n+6) {animation-delay: -7s;}
+    .line span:nth-child(9n+7) {animation-delay: -8s;}
+    .line span:nth-child(9n+8) {animation-delay: -9s;}
+    .line span:nth-child(9n+0) {animation-delay: -1s;}
+        @keyframes colors { 0% {color: red;} 20% {color: blue;} 40% {color: #00ff00;} 60% {color: #4200f8;} 80% {color: pink;} 100% {color: red;} }

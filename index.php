@@ -28,7 +28,7 @@ if ($_GET['tok']) {
     ';
 
   } else {
-    echo '<h1 style="color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding:0; margin:0;">ve výzdobě</h1>';
+    echo '<style>body {opacity: 1}</style><h1 style="color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding:0; margin:0;">ve výzdobě</h1>';
   }
 
 ?>
